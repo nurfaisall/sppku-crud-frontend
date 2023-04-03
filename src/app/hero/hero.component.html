@@ -1,0 +1,128 @@
+<div *ngFor="let siswa of siswas" class="inline">
+  <div class="card w-96 bg-base-100 shadow-xl inline-block m-2">
+    <div class="card-body">
+      <h2 class="card-title">{{ siswa.name }}</h2>
+      <div class="avatar">
+        <div class="w-24 rounded">
+          <img [src]="siswa.image" />
+        </div>
+      </div>
+      <p>{{ siswa.kelas }}</p>
+      <p>Rp.{{ siswa.amount }},-</p>
+      <p>Kurang : Rp.{{1200000 - siswa.amount}},-</p>
+      <div class="card-actions justify-end">
+        <form (ngSubmit)="deleteSiswa(siswa.id)">
+          <button type="submit" class="btn btn-error hover:bg-red-400 transition-all">Delete</button>
+        </form>
+        <label for="edit-modal" class="btn btn-success" (click)="setEditSiswa(siswa)">Pembayaran</label>
+        <label for="detail-modal" class="btn btn-success" (click)="setDetailSiswa(siswa)">Detail</label>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+<!-- The button to open modal -->
+<label for="add-modal" class="btn fixed right-0 bottom-[4em]">open modal</label>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="add-modal" class="modal-toggle" />
+<div class="modal">
+  <form #addform="ngForm" (ngSubmit)="addSiswa(addform)">
+    <div class="modal-box">
+      add
+      <div class="form-control">
+        <label class="input-group">
+          <span>name</span>
+          <input type="text" name="name" ngModel class="input input-bordered" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="input-group">
+          <span>kelas</span>
+          <input
+            type="text"
+            name="kelas"
+            ngModel
+            class="input input-bordered"
+          />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="input-group">
+          <span>amount</span>
+          <input
+            type="text"
+            name="amount"
+            ngModel
+            class="input input-bordered"
+          />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="input-group">
+          <span>image</span>
+          <input
+            type="text"
+            name="image"
+            ngModel
+            class="input input-bordered"
+          />
+        </label>
+      </div>
+      <div class="modal-action">
+        <button for="add-modal" [disabled]="addform.invalid" type="submit" class="btn" name="add">
+          <label for="add-modal" class="cursor-pointer">hellow</label>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- MODAL END -->
+
+<!-- Put this part before </body> tag -->
+<!-- MODAL EDIT -->
+<input type="checkbox" id="edit-modal" class="modal-toggle" />
+<div class="modal">
+  <form #updateSiswaForm="ngForm" (ngSubmit)="updateSiswa(updateSiswaForm.value)">
+    <div class="modal-box">
+      <div class="form-control  ">
+        <label class="input-group">
+          <input type="text" name="id" [ngModel]="siswaEdit?.id" class="input input-bordered" hidden/>
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="input-group">
+          <span>amount</span>
+          <input type="text" name="amount" ngModel placeholder="Masukan nominal pembayaran" class="input input-bordered" />
+        </label>
+      </div>
+      <div class="modal-action">
+        <button for="edit-modal" [disabled]="addform.invalid" type="submit" class="btn" name="add">
+          <label for="edit-modal" class="cursor-pointer">hellow</label>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- MODAL END -->
+
+<!-- MODAL DETAIL -->
+<input type="checkbox" id="detail-modal" class="modal-toggle" />
+<div class="modal">
+    <div class="modal-box">
+      <table class="w-full">
+        <thead class="font-bold text-xl bg-orange-200 text-center">
+          <tr class="w-full">
+            <td class="w-1/2">Bulan</td>
+            <td class="w-1/2">Check</td>
+          </tr>
+          <tr *ngFor="let count of bulan; let i = index">
+            <td [ngClass]="{'bg-red-300' : i % 2 == 1,'bg-slate-300' : i % 2 == 0}">{{bulan[i]}}</td>
+            <td [ngClass]="{'bg-red-300' : i % 2 == 1,'bg-slate-300' : i % 2 == 0}"><span  *ngIf="siswaDetailCount > i+0.9999999999"> ✔</span> </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+</div>
+<!-- MODAL DETAIL END -->
+
